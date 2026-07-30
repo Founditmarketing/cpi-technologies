@@ -6,12 +6,21 @@
 	========================================== */
 	$(window).on("scroll", function(){
 		if ( $( '#site-header' ).hasClass( "sticky-header" ) ) {
-			var site_header = $('#site-header').outerHeight() + 30;	
-			
-		    if ($(window).scrollTop() >= site_header) {	    	
-		        $('.sticky-header .octf-main-header, .mobile-header-sticky .header_mobile').addClass('is-stuck');	        
-		    }else {
-		        $('.sticky-header .octf-main-header, .mobile-header-sticky .header_mobile').removeClass('is-stuck');		              
+			var site_header = $('#site-header').outerHeight() + 30;
+			var $stickyTargets = $('.sticky-header .octf-main-header, .mobile-header-sticky .header_mobile');
+			var isStuck = $stickyTargets.hasClass('is-stuck');
+			// Hysteresis: stick and unstick at different scroll positions so
+			// hovering right at the threshold doesn't add/remove/re-add the
+			// class on every scroll tick (that retriggers the slide-down
+			// animation each time and looks like the header snapping).
+			var stickOn = site_header;
+			var stickOff = Math.max(site_header - 60, 0);
+			var scrollTop = $(window).scrollTop();
+
+		    if ( !isStuck && scrollTop >= stickOn ) {
+		        $stickyTargets.addClass('is-stuck');
+		    } else if ( isStuck && scrollTop < stickOff ) {
+		        $stickyTargets.removeClass('is-stuck');
 		    }
 		}
 	});
