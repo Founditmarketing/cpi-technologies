@@ -1571,6 +1571,12 @@ a:hover, a:active {
   box-sizing: border-box;
 }
 
+.main-navigation ul li ul > li > a {
+  display: block;
+  padding: 10px 25px;
+  text-align: left;
+}
+
 .main-navigation ul li ul ul {
   left: 100%;
   top: -25px;
